@@ -7,6 +7,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
 import com.aj.slick2d.tetris.core.Game;
+import com.aj.slick2d.tetris.global.Globals;
 
 /**
  * Game launcher.
@@ -23,7 +24,8 @@ public class Launcher {
 			AppGameContainer app = new AppGameContainer(new Game());
 
 			app.setAlwaysRender(true);
-			app.setDisplayMode(1024, 768, false);
+			app.setDisplayMode(Globals.RESOLUTION_WIDTH,
+					Globals.RESOLUTION_HEIGHT, false);
 			app.setTargetFrameRate(100);
 
 			app.start();

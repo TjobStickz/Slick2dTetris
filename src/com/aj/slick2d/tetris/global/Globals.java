@@ -10,6 +10,9 @@ public final class Globals {
 	public static final String GAME_TITLE = "Slick2d TETRIS";
 	public static final String GAME_VERSION = "v0.1";
 
+	public static final int RESOLUTION_WIDTH = 1024;
+	public static final int RESOLUTION_HEIGHT = 768;
+
 	// STATES
 	public static final int LOADING_STATE = 0;
 	public static final int MENU_STATE = 1;
