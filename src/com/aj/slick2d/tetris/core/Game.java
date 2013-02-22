@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.aj.slick2d.tetris.global.Globals;
+import com.aj.slick2d.tetris.state.GameState;
 import com.aj.slick2d.tetris.state.LoadingState;
 import com.aj.slick2d.tetris.state.MenuState;
 
@@ -27,5 +28,6 @@ public class Game extends StateBasedGame {
 	public void initStatesList(GameContainer container) throws SlickException {
 		addState(new LoadingState(Globals.LOADING_STATE));
 		addState(new MenuState(Globals.MENU_STATE));
+		addState(new GameState(Globals.GAME_STATE));
 	}
 }

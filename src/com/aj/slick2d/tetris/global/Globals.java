@@ -17,13 +17,22 @@ public final class Globals {
 	public static final int LOADING_STATE = 0;
 	public static final int MENU_STATE = 1;
 	public static final int GAME_STATE = 2;
-	public static final int SCORES_STATE = 3;
+	public static final int OPTIONS_STATE = 3;
+	public static final int HIGHSCORES_STATE = 4;
 
 	// GAME SUB-STATES
 	public static final int GAME_NEXT = 0;
 	public static final int GAME_MOVE = 1;
 	public static final int GAME_DROP = 2;
 	public static final int GAME_OVER = 3;
+	public static final int GAME_PAUSE = 4;
+
+	// BOARD dimensions
+	public static final int BOARD_COLS = 10;
+	public static final int BOARD_ROWS = 20;
+	public static final int BOARD_CELL_SIZE = 32;
+	public static final int BOARD_HEIGHT = BOARD_ROWS * BOARD_CELL_SIZE;
+	public static final int BOARD_WIDTH = BOARD_COLS * BOARD_CELL_SIZE;
 
 	private Globals() {
 		// can't instantiate globals class.

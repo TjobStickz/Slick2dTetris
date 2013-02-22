@@ -11,7 +11,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import com.aj.slick2d.tetris.global.Globals;
 import com.aj.slick2d.tetris.menu.MenuEntry;
 
 /**
@@ -126,7 +129,8 @@ public class MenuState extends BasicGameState {
 		} else if (input.isKeyPressed(Input.KEY_ENTER)) {
 			MenuEntry selectedEntry = MenuEntry.values()[selectedEntryIndex];
 			if (MenuEntry.START == selectedEntry) {
-
+				game.enterState(Globals.GAME_STATE, new FadeOutTransition(),
+						new FadeInTransition());
 			} else if (MenuEntry.HIGHSCORES == selectedEntry) {
 
 			} else if (MenuEntry.EXIT == selectedEntry) {
