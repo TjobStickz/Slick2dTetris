@@ -92,7 +92,10 @@ public class LoadingState extends BasicGameState {
 		leftFromInterval -= delta;
 
 		Input input = container.getInput();
-		if (input.isKeyDown(Input.KEY_ENTER)) {
+		if (input.isKeyPressed(Input.KEY_ENTER)) {
+			input.clearControlPressedRecord();
+			input.clearKeyPressedRecord();
+			input.clearMousePressedRecord();
 			game.enterState(Globals.MENU_STATE, new FadeOutTransition(),
 					new FadeInTransition());
 		}

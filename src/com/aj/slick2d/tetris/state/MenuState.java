@@ -129,6 +129,9 @@ public class MenuState extends BasicGameState {
 		} else if (input.isKeyPressed(Input.KEY_ENTER)) {
 			MenuEntry selectedEntry = MenuEntry.values()[selectedEntryIndex];
 			if (MenuEntry.START == selectedEntry) {
+				input.clearControlPressedRecord();
+				input.clearKeyPressedRecord();
+				input.clearMousePressedRecord();
 				game.enterState(Globals.GAME_STATE, new FadeOutTransition(),
 						new FadeInTransition());
 			} else if (MenuEntry.HIGHSCORES == selectedEntry) {

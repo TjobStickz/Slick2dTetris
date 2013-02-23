@@ -27,12 +27,20 @@ public final class Globals {
 	public static final int GAME_OVER = 3;
 	public static final int GAME_PAUSE = 4;
 
+	// BOARD CELL
+	public static final int CELL_SIZE = 32;
+
 	// BOARD dimensions
 	public static final int BOARD_COLS = 10;
-	public static final int BOARD_ROWS = 20;
-	public static final int BOARD_CELL_SIZE = 32;
-	public static final int BOARD_HEIGHT = BOARD_ROWS * BOARD_CELL_SIZE;
-	public static final int BOARD_WIDTH = BOARD_COLS * BOARD_CELL_SIZE;
+	public static final int BOARD_VISIBLE_ROWS = 20;
+	public static final int BOARD_HIDDEN_ROWS = 2;
+	public static final int BOARD_HEIGHT = BOARD_VISIBLE_ROWS * CELL_SIZE;
+	public static final int BOARD_WIDTH = BOARD_COLS * CELL_SIZE;
+	public static final int BOARD_OFFSET = 100;
+
+	// SHAPE properties
+	public static final int SHAPE_NUM_OF_BLOCKS = 4;
+	public static final int SHAPE_DIMENSIONS = 2;
 
 	private Globals() {
 		// can't instantiate globals class.
