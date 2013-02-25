@@ -12,10 +12,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.aj.slick2d.tetris.gameplay.Board;
-import com.aj.slick2d.tetris.gameplay.CellState;
-import com.aj.slick2d.tetris.gameplay.Shape;
+import com.aj.slick2d.tetris.gameplay.CellStatus;
+import com.aj.slick2d.tetris.gameplay.TetrominoRandomizer;
 import com.aj.slick2d.tetris.global.Globals;
-import com.sun.xml.internal.bind.v2.TODO;
 
 /**
  * @author BETON
@@ -40,10 +39,6 @@ public class GameState extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		board = new Board();
-		// TODO: temporary!
-		Shape shape = new Shape();
-		shape.setRandomShape();
-		board.setMovingShape(shape);
 	}
 
 	/*
@@ -68,8 +63,8 @@ public class GameState extends BasicGameState {
 		for (int i = Globals.BOARD_HIDDEN_ROWS; i < Globals.BOARD_HIDDEN_ROWS
 				+ Globals.BOARD_VISIBLE_ROWS; i++) {
 			for (int j = 0; j < Globals.BOARD_COLS; j++) {
-				CellState cellState = board.getCellState(i, j);
-				if (CellState.FILLED == cellState) {
+				CellStatus cellState = board.getCellState(i, j);
+				if (CellStatus.FILLED == cellState) {
 					int x = startX + (j * Globals.CELL_SIZE);
 					int y = startY
 							+ ((i - Globals.BOARD_HIDDEN_ROWS) * Globals.CELL_SIZE);
@@ -85,10 +80,11 @@ public class GameState extends BasicGameState {
 		Color cellBorder = Color.black;
 
 		g.setColor(cellBorder);
-		g.drawRect(x, y, Globals.CELL_SIZE, Globals.CELL_SIZE);
+		g.drawRoundRect(x, y, Globals.CELL_SIZE, Globals.CELL_SIZE, 4);
 
 		g.setColor(cellFilling);
-		g.fillRect(x + 1, y + 1, Globals.CELL_SIZE - 1, Globals.CELL_SIZE - 1);
+		g.fillRoundRect(x + 1, y + 1, Globals.CELL_SIZE - 1,
+				Globals.CELL_SIZE - 1, 4);
 
 		g.setColor(oldColor);
 	}
@@ -117,10 +113,7 @@ public class GameState extends BasicGameState {
 		// handle key pressing
 		Input input = container.getInput();
 		if (input.isKeyPressed(Input.KEY_ENTER)) {
-			// TODO: temporary!
-			Shape shape = new Shape();
-			shape.setRandomShape();
-			board.setMovingShape(shape);
+			board.setMovingShape(TetrominoRandomizer.generateRandomShape());
 		} else if (input.isKeyPressed(Input.KEY_UP)) {
 			board.rotateRight();
 		} else if (input.isKeyPressed(Input.KEY_DOWN)) {

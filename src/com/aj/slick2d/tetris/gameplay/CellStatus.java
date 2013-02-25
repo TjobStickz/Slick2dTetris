@@ -5,6 +5,6 @@ package com.aj.slick2d.tetris.gameplay;
  * 
  * @author BETON
  */
-public enum CellState {
+public enum CellStatus {
 	EMPTY, FILLED;
 }

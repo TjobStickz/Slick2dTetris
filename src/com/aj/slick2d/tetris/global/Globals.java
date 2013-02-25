@@ -41,6 +41,8 @@ public final class Globals {
 	// SHAPE properties
 	public static final int SHAPE_NUM_OF_BLOCKS = 4;
 	public static final int SHAPE_DIMENSIONS = 2;
+	public static final int SHAPE_START_ROW = 10;
+	public static final int SHAPE_START_COL = 3;
 
 	private Globals() {
 		// can't instantiate globals class.

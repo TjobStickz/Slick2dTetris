@@ -23,7 +23,7 @@ public class Board {
 		for (int i = 0; i < (Globals.BOARD_VISIBLE_ROWS + Globals.BOARD_HIDDEN_ROWS); i++) {
 			int[] row = new int[Globals.BOARD_COLS];
 			for (int k = 0; k < row.length; k++) {
-				row[k] = CellState.EMPTY.ordinal();
+				row[k] = CellStatus.EMPTY.ordinal();
 			}
 			lines.add(row);
 		}
@@ -40,7 +40,7 @@ public class Board {
 	 * @param state
 	 *            state of cell to set
 	 */
-	public void setCellState(int row, int col, CellState state) {
+	public void setCellState(int row, int col, CellStatus state) {
 		int[] line = lines.get(row);
 		line[col] = state.ordinal();
 	}
@@ -52,9 +52,9 @@ public class Board {
 	 *            column
 	 * @return state of cell with given coordinates
 	 */
-	public CellState getCellState(int row, int col) {
+	public CellStatus getCellState(int row, int col) {
 		int[] line = lines.get(row);
-		return CellState.values()[line[col]];
+		return CellStatus.values()[line[col]];
 	}
 
 	private void clearMovingShape() {
@@ -62,7 +62,7 @@ public class Board {
 			for (int i = 0; i < Globals.SHAPE_NUM_OF_BLOCKS; i++) {
 				int x = movingX + movingShape.x(i);
 				int y = movingY + movingShape.y(i);
-				setCellState(y, x, CellState.EMPTY);
+				setCellState(y, x, CellStatus.EMPTY);
 			}
 		}
 	}
@@ -72,7 +72,7 @@ public class Board {
 			for (int i = 0; i < Globals.SHAPE_NUM_OF_BLOCKS; i++) {
 				int x = movingX + movingShape.x(i);
 				int y = movingY + movingShape.y(i);
-				setCellState(y, x, CellState.FILLED);
+				setCellState(y, x, CellStatus.FILLED);
 			}
 		}
 	}
@@ -81,9 +81,8 @@ public class Board {
 		clearMovingShape();
 
 		movingShape = shape;
-		// TODO: temp!
-		movingX = 4;
-		movingY = 11;
+		movingX = Globals.SHAPE_START_COL;
+		movingY = Globals.SHAPE_START_ROW;
 
 		putMovingShape();
 	}
