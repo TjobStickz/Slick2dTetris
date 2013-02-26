@@ -14,18 +14,24 @@ import org.newdawn.slick.Color;
 public enum Tetrominos {
 	ZShape(
 			new Pair[][] {
+					{ new Pair(-1, 1), new Pair(0, 1), new Pair(0, 0), new Pair(1, 0) },
+					{ new Pair(0, -1), new Pair(0, 0), new Pair(1, 0), new Pair(1, 1) },
 					{ new Pair(-1, 0), new Pair(0, 0), new Pair(0, -1), new Pair(1, -1) },
 					{ new Pair(-1, -1), new Pair(-1, 0), new Pair(0, 0), new Pair(0, 1) } }, 
 						2, 4, Color.red), 
 	SShape(
 			new Pair[][] {
+					{ new Pair(-1, 0), new Pair(0, 0), new Pair(0, 1), new Pair(1, 1) },
+					{ new Pair(0, 1), new Pair(0, 0), new Pair(1, 0), new Pair(1, -1) },
 					{ new Pair(-1, -1), new Pair(0, -1), new Pair(0, 0), new Pair(1, 0) },
 					{ new Pair(-1, 1), new Pair(-1, 0), new Pair(0, 0), new Pair(0, -1) } }, 
 						2, 4, Color.green), 
 	LineShape(
 			new Pair[][] {
+					{ new Pair(-1, 1), new Pair(0, 1), new Pair(1, 1), new Pair(2, 1) },
+					{ new Pair(1, 2), new Pair(1, 1), new Pair(1, 0), new Pair(1, -1) },
 					{ new Pair(-1, 0), new Pair(0, 0), new Pair(1, 0), new Pair(2, 0) },
-					{ new Pair(0, -1), new Pair(0, 0), new Pair(0, 1), new Pair(0, 2) } }, 
+					{ new Pair(0, 2), new Pair(0, 1), new Pair(0, 0), new Pair(0, -1) } }, 
 						2, 4, Color.cyan), 
 	TShape(
 			new Pair[][] {
