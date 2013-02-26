@@ -45,7 +45,7 @@ public final class Globals {
 	public static final int DRAW_TIMER = 100;
 
 	// DROPPING
-	public static final int DROP_TIMER = 100;
+	public static final int DROP_TIMER = 1000;
 
 	private Globals() {
 		// can't instantiate globals class.

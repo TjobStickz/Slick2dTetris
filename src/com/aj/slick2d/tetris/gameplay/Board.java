@@ -193,4 +193,38 @@ public class Board {
 		putMovingShape();
 		return over;
 	}
+
+	/**
+	 * Adds empty line on top;
+	 */
+	private void addEmptyLine() {
+		lines.add(new Color[Globals.BOARD_COLS]);
+	}
+
+	/**
+	 * @return number of lines eliminated (eliminates only full lines)
+	 */
+	public int tryEliminateLines() {
+		List<Color[]> toRemove = new ArrayList<Color[]>();
+
+		for (Color[] line : lines) {
+			boolean full = true;
+			for (int i = 0; i < line.length; i++) {
+				if (line[i] == null) {
+					full = false;
+					break;
+				}
+			}
+			if (full) {
+				toRemove.add(line);
+			}
+		}
+
+		for (Color[] line : toRemove) {
+			lines.remove(line);
+			addEmptyLine();
+		}
+
+		return toRemove.size();
+	}
 }

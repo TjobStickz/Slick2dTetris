@@ -194,6 +194,8 @@ public class GameState extends BasicGameState {
 			}
 		} else if (subState == GameSubStates.DROP) {
 			board.setMovingShape(null);
+			int linesEliminated = board.tryEliminateLines();
+			// TODO: count score
 			if (board.over()) {
 				subState = GameSubStates.OVER;
 			} else {
@@ -210,6 +212,16 @@ public class GameState extends BasicGameState {
 				// TODO: restore previous state
 			}
 		}
+	}
+
+	@Override
+	public void leave(GameContainer container, StateBasedGame game)
+			throws SlickException {
+		super.leave(container, game);
+		board = new Board();
+		subState = GameSubStates.COUNT_DOWN;
+		countDownStepsLeft = Globals.COUNTDOWN_STEPS;
+		timeLeft = Globals.COUNTDOWN_STEP;
 	}
 
 	/*
