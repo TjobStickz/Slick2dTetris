@@ -18,8 +18,8 @@ import com.aj.slick2d.tetris.global.Globals;
 public class Board {
 	private List<Color[]> lines = new ArrayList<>();
 	private Shape movingShape;
-	private int movingX;
-	private int movingY;
+	private int movingCol;
+	private int movingRow;
 
 	public Board() {
 		for (int i = 0; i < (Globals.BOARD_VISIBLE_ROWS + Globals.BOARD_HIDDEN_ROWS); i++) {
@@ -30,8 +30,8 @@ public class Board {
 			lines.add(row);
 		}
 		movingShape = null;
-		movingX = -1;
-		movingY = -1;
+		movingCol = -1;
+		movingRow = -1;
 	}
 
 	/**
@@ -62,9 +62,9 @@ public class Board {
 	private void clearMovingShape() {
 		if (movingShape != null) {
 			for (int i = 0; i < Globals.SHAPE_NUM_OF_BLOCKS; i++) {
-				int x = movingX + movingShape.x(i);
-				int y = movingY + movingShape.y(i);
-				setCellState(y, x, null);
+				int col = movingCol + movingShape.x(i);
+				int row = movingRow + movingShape.y(i);
+				setCellState(row, col, null);
 			}
 		}
 	}
@@ -72,9 +72,9 @@ public class Board {
 	private void putMovingShape() {
 		if (movingShape != null) {
 			for (int i = 0; i < Globals.SHAPE_NUM_OF_BLOCKS; i++) {
-				int x = movingX + movingShape.x(i);
-				int y = movingY + movingShape.y(i);
-				setCellState(y, x, movingShape.getColor());
+				int col = movingCol + movingShape.x(i);
+				int row = movingRow + movingShape.y(i);
+				setCellState(row, col, movingShape.getColor());
 			}
 		}
 	}
@@ -85,8 +85,8 @@ public class Board {
 		}
 
 		movingShape = shape;
-		movingX = Globals.SHAPE_START_COL;
-		movingY = Globals.SHAPE_START_ROW;
+		movingCol = Globals.SHAPE_START_COL;
+		movingRow = Globals.SHAPE_START_ROW;
 
 		putMovingShape();
 	}
@@ -100,21 +100,21 @@ public class Board {
 	public boolean tryMove(MovementDirections direction) {
 		clearMovingShape();
 
-		int x = movingX;
-		int y = movingY;
+		int col = movingCol;
+		int row = movingRow;
 		if (MovementDirections.DOWN == direction) {
-			y--;
+			row--;
 		} else if (MovementDirections.LEFT == direction) {
-			x--;
+			col--;
 		} else if (MovementDirections.RIGHT == direction) {
-			x++;
+			col++;
 		} else {
 			throw new IllegalArgumentException("Unknown direction!");
 		}
 
-		if (canPut(movingShape, y, x)) {
-			movingX = x;
-			movingY = y;
+		if (canPut(movingShape, row, col)) {
+			movingCol = col;
+			movingRow = row;
 			putMovingShape();
 			return true;
 		}
@@ -129,7 +129,7 @@ public class Board {
 	public boolean tryRotateRight() {
 		clearMovingShape();
 		Shape rotated = movingShape.rotateRight();
-		if (canPut(rotated, movingY, movingX)) {
+		if (canPut(rotated, movingRow, movingCol)) {
 			movingShape = rotated;
 			putMovingShape();
 			return true;
@@ -145,7 +145,7 @@ public class Board {
 	public boolean tryRotateLeft() {
 		clearMovingShape();
 		Shape rotated = movingShape.rotateLeft();
-		if (canPut(rotated, movingY, movingX)) {
+		if (canPut(rotated, movingRow, movingCol)) {
 			movingShape = rotated;
 			putMovingShape();
 			return true;
@@ -156,18 +156,18 @@ public class Board {
 
 	private boolean canPut(Shape shape, int row, int col) {
 		for (int i = 0; i < Globals.SHAPE_NUM_OF_BLOCKS; i++) {
-			int x = col + movingShape.x(i);
-			int y = row + movingShape.y(i);
+			int targetCol = col + shape.x(i);
+			int targetRow = row + shape.y(i);
 
-			if (x < 0 || x >= Globals.BOARD_COLS) {
+			if (targetCol < 0 || targetCol >= Globals.BOARD_COLS) {
 				return false;
 			}
-			if (y < 0
-					|| y >= (Globals.BOARD_VISIBLE_ROWS + Globals.BOARD_HIDDEN_ROWS)) {
+			if (targetRow < 0
+					|| targetRow >= (Globals.BOARD_VISIBLE_ROWS + Globals.BOARD_HIDDEN_ROWS)) {
 				return false;
 			}
 
-			if (lines.get(y)[x] != null) {
+			if (lines.get(targetRow)[targetCol] != null) {
 				return false;
 			}
 		}
