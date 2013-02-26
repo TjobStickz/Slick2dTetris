@@ -20,13 +20,6 @@ public final class Globals {
 	public static final int OPTIONS_STATE = 3;
 	public static final int HIGHSCORES_STATE = 4;
 
-	// GAME SUB-STATES
-	public static final int GAME_NEXT = 0;
-	public static final int GAME_MOVE = 1;
-	public static final int GAME_DROP = 2;
-	public static final int GAME_OVER = 3;
-	public static final int GAME_PAUSE = 4;
-
 	// BOARD CELL
 	public static final int CELL_SIZE = 32;
 
@@ -43,6 +36,16 @@ public final class Globals {
 	public static final int SHAPE_DIMENSIONS = 2;
 	public static final int SHAPE_START_ROW = 10;
 	public static final int SHAPE_START_COL = 3;
+
+	// COUNTDOWN
+	public static final int COUNTDOWN_STEP = 1000;
+	public static final int COUNTDOWN_STEPS = 3;
+
+	// DRAWING
+	public static final int DRAW_TIMER = 100;
+
+	// DROPPING
+	public static final int DROP_TIMER = 100;
 
 	private Globals() {
 		// can't instantiate globals class.
