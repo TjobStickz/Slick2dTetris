@@ -34,8 +34,8 @@ public final class Globals {
 	// SHAPE properties
 	public static final int SHAPE_NUM_OF_BLOCKS = 4;
 	public static final int SHAPE_DIMENSIONS = 2;
-	public static final int SHAPE_START_ROW = 10;
-	public static final int SHAPE_START_COL = 3;
+	public static final int SHAPE_START_ROW = 19;
+	public static final int SHAPE_START_COL = 4;
 
 	// COUNTDOWN
 	public static final int COUNTDOWN_STEP = 1000;

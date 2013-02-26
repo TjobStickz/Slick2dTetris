@@ -42,7 +42,7 @@ public class Board {
 	 * @param state
 	 *            state of cell to set
 	 */
-	public void setCellState(int row, int col, Color color) {
+	private void setCellState(int row, int col, Color color) {
 		Color[] line = lines.get(row);
 		line[col] = color;
 	}
@@ -80,7 +80,9 @@ public class Board {
 	}
 
 	public void setMovingShape(Shape shape) {
-		clearMovingShape();
+		if (shape != null) {
+			clearMovingShape();
+		}
 
 		movingShape = shape;
 		movingX = Globals.SHAPE_START_COL;
@@ -89,15 +91,106 @@ public class Board {
 		putMovingShape();
 	}
 
-	public void rotateRight() {
+	/**
+	 * @param direction
+	 *            Direction in which we are trying to move player-controlled
+	 *            piece.
+	 * @return {@code true} if movement was succesful, {@code false} otherwise
+	 */
+	public boolean tryMove(MovementDirections direction) {
 		clearMovingShape();
-		movingShape = movingShape.rotateRight();
+
+		int x = movingX;
+		int y = movingY;
+		if (MovementDirections.DOWN == direction) {
+			y--;
+		} else if (MovementDirections.LEFT == direction) {
+			x--;
+		} else if (MovementDirections.RIGHT == direction) {
+			x++;
+		} else {
+			throw new IllegalArgumentException("Unknown direction!");
+		}
+
+		if (canPut(movingShape, y, x)) {
+			movingX = x;
+			movingY = y;
+			putMovingShape();
+			return true;
+		}
 		putMovingShape();
+		return false;
 	}
 
-	public void rotateLeft() {
+	/**
+	 * @return {@code true} if rotating right was succesful, {@code false}
+	 *         otherwise
+	 */
+	public boolean tryRotateRight() {
 		clearMovingShape();
-		movingShape = movingShape.rotateLeft();
+		Shape rotated = movingShape.rotateRight();
+		if (canPut(rotated, movingY, movingX)) {
+			movingShape = rotated;
+			putMovingShape();
+			return true;
+		}
 		putMovingShape();
+		return false;
+	}
+
+	/**
+	 * @return {@code true} if rotating left was succesful, {@code false}
+	 *         otherwise
+	 */
+	public boolean tryRotateLeft() {
+		clearMovingShape();
+		Shape rotated = movingShape.rotateLeft();
+		if (canPut(rotated, movingY, movingX)) {
+			movingShape = rotated;
+			putMovingShape();
+			return true;
+		}
+		putMovingShape();
+		return false;
+	}
+
+	private boolean canPut(Shape shape, int row, int col) {
+		for (int i = 0; i < Globals.SHAPE_NUM_OF_BLOCKS; i++) {
+			int x = col + movingShape.x(i);
+			int y = row + movingShape.y(i);
+
+			if (x < 0 || x >= Globals.BOARD_COLS) {
+				return false;
+			}
+			if (y < 0
+					|| y >= (Globals.BOARD_VISIBLE_ROWS + Globals.BOARD_HIDDEN_ROWS)) {
+				return false;
+			}
+
+			if (lines.get(y)[x] != null) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @return {@code true} if game is over, {@code false} otherwise
+	 */
+	public boolean over() {
+		clearMovingShape();
+		boolean over = false;
+
+		Color[] firstHiddenRow = lines.get(Globals.BOARD_VISIBLE_ROWS);
+		for (int i = 0; i < firstHiddenRow.length; i++) {
+			if (firstHiddenRow[i] != null) {
+				over = true;
+				break;
+			}
+		}
+
+		putMovingShape();
+		return over;
 	}
 }

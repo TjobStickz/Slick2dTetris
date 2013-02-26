@@ -10,9 +10,12 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import com.aj.slick2d.tetris.gameplay.Board;
 import com.aj.slick2d.tetris.gameplay.GameSubStates;
+import com.aj.slick2d.tetris.gameplay.MovementDirections;
 import com.aj.slick2d.tetris.gameplay.Shape;
 import com.aj.slick2d.tetris.gameplay.TetrominoRandomizer;
 import com.aj.slick2d.tetris.global.Globals;
@@ -66,7 +69,16 @@ public class GameState extends BasicGameState {
 		renderBoardContent(container, g);
 		if (subState == GameSubStates.COUNT_DOWN) {
 			renderCountDownCounter(container, g);
+		} else if (subState == GameSubStates.OVER) {
+			renderGameOverMessage(container, g);
 		}
+	}
+
+	private void renderGameOverMessage(GameContainer container, Graphics g) {
+		String countDownText = "GAME OVER! Press ENTER to return to main menu.";
+		g.drawString(countDownText, (container.getWidth() - g.getFont()
+				.getWidth(countDownText)) / 2, (container.getHeight() - g
+				.getFont().getHeight(countDownText)) / 2);
 	}
 
 	private void renderCountDownCounter(GameContainer container, Graphics g) {
@@ -81,15 +93,12 @@ public class GameState extends BasicGameState {
 		int startY = container.getHeight()
 				- ((container.getHeight() - Globals.BOARD_HEIGHT) / 2);
 
-		// we skip hidden rows while rendering.
-		for (int i = Globals.BOARD_HIDDEN_ROWS; i < Globals.BOARD_HIDDEN_ROWS
-				+ Globals.BOARD_VISIBLE_ROWS; i++) {
+		for (int i = 0; i < Globals.BOARD_VISIBLE_ROWS; i++) {
 			for (int j = 0; j < Globals.BOARD_COLS; j++) {
 				Color cellColor = board.getCellState(i, j);
 				if (cellColor != null) {
 					int x = startX + (j * Globals.CELL_SIZE);
-					int y = startY
-							- ((i - Globals.BOARD_HIDDEN_ROWS) * Globals.CELL_SIZE);
+					int y = startY - ((i + 1) * Globals.CELL_SIZE);
 					paintCell(g, x, y, cellColor);
 				}
 			}
@@ -158,25 +167,44 @@ public class GameState extends BasicGameState {
 			}
 		} else if (subState == GameSubStates.MOVE) {
 			if (input.isKeyPressed(Input.KEY_UP)) {
-				board.rotateRight();
+				board.tryRotateRight();
 			} else if (input.isKeyPressed(Input.KEY_DOWN)) {
-				board.rotateLeft();
+				board.tryRotateLeft();
 			} else if (input.isKeyPressed(Input.KEY_LEFT)) {
-				// TODO: handle moving left
+				board.tryMove(MovementDirections.LEFT);
 			} else if (input.isKeyPressed(Input.KEY_RIGHT)) {
-				// TODO: handle moving right
+				board.tryMove(MovementDirections.RIGHT);
 			} else if (input.isKeyPressed(Input.KEY_SPACE)) {
-				// TODO: handle forcing drop
+				boolean can = false;
+				do {
+					can = board.tryMove(MovementDirections.DOWN);
+				} while (can);
+				timeLeft = -1;
 			} else if (input.isKeyPressed(Input.KEY_P)) {
 				// TODO: switch pause on
 				// TODO: cache current state
 			}
 
-			// TODO: move 1 place down if timeLeft < 0 and reset timeLeft
+			if (timeLeft < 0) {
+				if (board.tryMove(MovementDirections.DOWN)) {
+					timeLeft = Globals.DROP_TIMER;
+				} else {
+					subState = GameSubStates.DROP;
+				}
+			}
 		} else if (subState == GameSubStates.DROP) {
-			// TODO: handle drop and decide if DRAW_NEXT or OVER i next
+			board.setMovingShape(null);
+			if (board.over()) {
+				subState = GameSubStates.OVER;
+			} else {
+				subState = GameSubStates.DRAW_NEXT;
+				timeLeft = Globals.DRAW_TIMER;
+			}
 		} else if (subState == GameSubStates.OVER) {
-			// TODO: something needed here?
+			if (input.isKeyPressed(Input.KEY_ENTER)) {
+				game.enterState(Globals.MENU_STATE, new FadeOutTransition(),
+						new FadeInTransition());
+			}
 		} else if (subState == GameSubStates.PAUSE) {
 			if (input.isKeyPressed(Input.KEY_P)) {
 				// TODO: restore previous state
