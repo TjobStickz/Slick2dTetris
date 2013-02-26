@@ -3,6 +3,8 @@
  */
 package com.aj.slick2d.tetris.gameplay;
 
+import org.newdawn.slick.Color;
+
 /**
  * Represents shape controlled by player. Shape knows its own coordinates
  * 
@@ -69,5 +71,9 @@ public class Shape {
 
 	private int getNumberOfCombinations() {
 		return tetromino.getCoords().length;
+	}
+	
+	public Color getColor(){
+		return tetromino.getColor();
 	}
 }

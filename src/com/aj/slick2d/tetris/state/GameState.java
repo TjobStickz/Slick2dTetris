@@ -12,7 +12,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.aj.slick2d.tetris.gameplay.Board;
-import com.aj.slick2d.tetris.gameplay.CellStatus;
 import com.aj.slick2d.tetris.gameplay.TetrominoRandomizer;
 import com.aj.slick2d.tetris.global.Globals;
 
@@ -57,26 +56,27 @@ public class GameState extends BasicGameState {
 
 	private void renderBoardContent(GameContainer container, Graphics g) {
 		int startX = Globals.BOARD_OFFSET;
-		int startY = (container.getHeight() - Globals.BOARD_HEIGHT) / 2;
+		int startY = container.getHeight()
+				- ((container.getHeight() - Globals.BOARD_HEIGHT) / 2);
 
 		// we skip hidden rows while rendering.
 		for (int i = Globals.BOARD_HIDDEN_ROWS; i < Globals.BOARD_HIDDEN_ROWS
 				+ Globals.BOARD_VISIBLE_ROWS; i++) {
 			for (int j = 0; j < Globals.BOARD_COLS; j++) {
-				CellStatus cellState = board.getCellState(i, j);
-				if (CellStatus.FILLED == cellState) {
+				Color cellColor = board.getCellState(i, j);
+				if (cellColor != null) {
 					int x = startX + (j * Globals.CELL_SIZE);
 					int y = startY
-							+ ((i - Globals.BOARD_HIDDEN_ROWS) * Globals.CELL_SIZE);
-					paintCell(g, x, y);
+							- ((i - Globals.BOARD_HIDDEN_ROWS) * Globals.CELL_SIZE);
+					paintCell(g, x, y, cellColor);
 				}
 			}
 		}
 	}
 
-	private void paintCell(Graphics g, int x, int y) {
+	private void paintCell(Graphics g, int x, int y, Color color) {
 		Color oldColor = g.getColor();
-		Color cellFilling = Color.white;
+		Color cellFilling = color;
 		Color cellBorder = Color.black;
 
 		g.setColor(cellBorder);

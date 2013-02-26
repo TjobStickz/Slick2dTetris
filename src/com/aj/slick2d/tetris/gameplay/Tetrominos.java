@@ -46,7 +46,7 @@ public enum Tetrominos {
 						3, 4, Color.orange), 
 	JShape(
 			new Pair[][] {
-					{ new Pair(-1, 1), new Pair(-1, 0), new Pair(0, 0), new Pair(0, 1) },
+					{ new Pair(-1, 1), new Pair(-1, 0), new Pair(0, 0), new Pair(1, 0) },
 					{ new Pair(-1, -1), new Pair(0, -1), new Pair(0, 0), new Pair(0, 1) },
 					{ new Pair(-1, 0), new Pair(0, 0), new Pair(1, 0), new Pair(1, -1) },
 					{ new Pair(0, -1), new Pair(0, 0), new Pair(0, 1), new Pair(1, 1) } }, 

@@ -6,6 +6,8 @@ package com.aj.slick2d.tetris.gameplay;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Color;
+
 import com.aj.slick2d.tetris.global.Globals;
 
 /**
@@ -14,16 +16,16 @@ import com.aj.slick2d.tetris.global.Globals;
  * @author BETON
  */
 public class Board {
-	private List<int[]> lines = new ArrayList<>();
+	private List<Color[]> lines = new ArrayList<>();
 	private Shape movingShape;
 	private int movingX;
 	private int movingY;
 
 	public Board() {
 		for (int i = 0; i < (Globals.BOARD_VISIBLE_ROWS + Globals.BOARD_HIDDEN_ROWS); i++) {
-			int[] row = new int[Globals.BOARD_COLS];
+			Color[] row = new Color[Globals.BOARD_COLS];
 			for (int k = 0; k < row.length; k++) {
-				row[k] = CellStatus.EMPTY.ordinal();
+				row[k] = null;
 			}
 			lines.add(row);
 		}
@@ -40,9 +42,9 @@ public class Board {
 	 * @param state
 	 *            state of cell to set
 	 */
-	public void setCellState(int row, int col, CellStatus state) {
-		int[] line = lines.get(row);
-		line[col] = state.ordinal();
+	public void setCellState(int row, int col, Color color) {
+		Color[] line = lines.get(row);
+		line[col] = color;
 	}
 
 	/**
@@ -52,9 +54,9 @@ public class Board {
 	 *            column
 	 * @return state of cell with given coordinates
 	 */
-	public CellStatus getCellState(int row, int col) {
-		int[] line = lines.get(row);
-		return CellStatus.values()[line[col]];
+	public Color getCellState(int row, int col) {
+		Color[] line = lines.get(row);
+		return line[col];
 	}
 
 	private void clearMovingShape() {
@@ -62,7 +64,7 @@ public class Board {
 			for (int i = 0; i < Globals.SHAPE_NUM_OF_BLOCKS; i++) {
 				int x = movingX + movingShape.x(i);
 				int y = movingY + movingShape.y(i);
-				setCellState(y, x, CellStatus.EMPTY);
+				setCellState(y, x, null);
 			}
 		}
 	}
@@ -72,7 +74,7 @@ public class Board {
 			for (int i = 0; i < Globals.SHAPE_NUM_OF_BLOCKS; i++) {
 				int x = movingX + movingShape.x(i);
 				int y = movingY + movingShape.y(i);
-				setCellState(y, x, CellStatus.FILLED);
+				setCellState(y, x, movingShape.getColor());
 			}
 		}
 	}
